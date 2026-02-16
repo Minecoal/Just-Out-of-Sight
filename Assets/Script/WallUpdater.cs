@@ -28,6 +28,16 @@ public class WallUpdater : MonoBehaviour
     public void Clear()
     {
         Destroy(collider2D);
-        Destroy(shadowCaster);
+        // Destroy(shadowCaster);
+    }
+
+    public void SetCastType()
+    {
+        shadowCaster.castingOption = ShadowCaster2D.ShadowCastingOptions.NoShadow;
+    }
+
+    public void SetRenderOrder(int i)
+    {
+        sr.rendererPriority = i;
     }
 }

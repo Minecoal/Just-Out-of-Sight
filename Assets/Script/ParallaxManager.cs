@@ -5,7 +5,9 @@ public class ParallaxManager : GenericSingleton<ParallaxManager>
 {
     [SerializeField] private int parallaxCount = 5;
     [SerializeField] private float distance = 2f;
+    [SerializeField] float maxScale = 1.3f;
     private float skewAmount;
+    private float scaleAmount;
 
     [SerializeField] GameObject wallPrefab; // assign original wall prefab
     private List<ParallaxLayer> layers = new List<ParallaxLayer>();
@@ -19,6 +21,7 @@ public class ParallaxManager : GenericSingleton<ParallaxManager>
     void Update()
     {
         skewAmount = distance / ((float)parallaxCount);
+        scaleAmount = maxScale / ((float)parallaxCount);
         UpdateLayers(PlayerManager.Instance.PlayerPosition);
     }
 
@@ -58,7 +61,7 @@ public class ParallaxManager : GenericSingleton<ParallaxManager>
     {
         foreach (ParallaxLayer layer in layers)
         {
-            layer.UpdateLayerPosition(playerPosition, skewAmount);
+            layer.UpdateLayerPosition(playerPosition, skewAmount, scaleAmount);
         }
     }
 }

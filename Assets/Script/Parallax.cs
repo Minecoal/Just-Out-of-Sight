@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ParallaxLayer : MonoBehaviour
 {
@@ -8,20 +9,22 @@ public class ParallaxLayer : MonoBehaviour
 
     [SerializeField] private WallUpdater[] childWalls;
     private Vector3 originalPosition;
-    private List<Vector3> originalWallPositions;
+    private List<Vector3> originalLocalPositions;
+    private List<Vector3> originalLocalScales;
 
     void Awake()
+{
+    childWalls = GetComponentsInChildren<WallUpdater>();
+
+    originalLocalPositions = new List<Vector3>();
+    originalLocalScales = new List<Vector3>();
+
+    foreach (WallUpdater wall in childWalls)
     {
-        originalPosition = transform.localPosition;
-        childWalls = GetComponentsInChildren<WallUpdater>();
-
-        originalWallPositions = new List<Vector3>();
-
-        foreach (WallUpdater wall in childWalls)
-        {
-            originalWallPositions.Add(wall.transform.position);
-        }
+        originalLocalPositions.Add(wall.transform.localPosition);
+        originalLocalScales.Add(wall.transform.localScale);
     }
+}
 
     public void SetFactor(int factor)
     {
@@ -37,25 +40,31 @@ public class ParallaxLayer : MonoBehaviour
         }
     }
 
-    public void UpdateLayerPosition(Vector3 playerPosition, float skewAmount)
+    public void UpdateLayerPosition(Vector3 playerPosition, float skewAmount, float scaleAmount)
     {
         for (int i = 0; i < childWalls.Length; i++)
         {
             WallUpdater t = childWalls[i];
 
-            t.transform.position = originalWallPositions[i] + new Vector3( 
-                (originalWallPositions[i].x - playerPosition.x) * factor * skewAmount,
-                (originalWallPositions[i].y - playerPosition.y) * factor * skewAmount,
+            t.transform.position = originalLocalPositions[i] + new Vector3( 
+                (originalLocalPositions[i].x - playerPosition.x) * factor * skewAmount,
+                (originalLocalPositions[i].y - playerPosition.y) * factor * skewAmount,
                 0f
             );
+
+            t.transform.localScale = originalLocalScales[i] * ((factor * scaleAmount) + 1);
         }
     }
     
     public void Clear()
     {
+        int i = 0;
         foreach (WallUpdater wall in childWalls)
         {
+            wall.SetRenderOrder(-i);
             wall.Clear();
+            wall.SetCastType();
+            i++;
         }
     }
 }
