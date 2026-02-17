@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float accelAmount = 12f;
     [SerializeField] private float decelAmount = 9f;
     [SerializeField] private Light2D flashlight;
+    [SerializeField] private Light2D flashlightSelfLight;
 
     private PlayerInputHandler input;
     private Rigidbody2D rb;
@@ -78,5 +79,6 @@ public class Player : MonoBehaviour
     public void ToggleFlashlight()
     {
         flashlight.enabled = !flashlight.enabled;
+        flashlightSelfLight.enabled = !flashlightSelfLight.enabled;
     }
 }
