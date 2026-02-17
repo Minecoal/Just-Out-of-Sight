@@ -4,9 +4,12 @@ using UnityEngine;
 public class ParallaxManager : GenericSingleton<ParallaxManager>
 {
     [SerializeField] private int parallaxCount = 5;
-    [SerializeField] private float distance = 2f;
+    [SerializeField] private float distancex = 2f;
+    [SerializeField] private float distancey = 2f;
     [SerializeField] float maxScale = 1.3f;
-    private float skewAmount;
+    [SerializeField] float maxTint = 0.7f;
+    private float skewAmountx;
+    private float skewAmounty;
     private float scaleAmount;
 
     [SerializeField] GameObject wallPrefab; // assign original wall prefab
@@ -18,9 +21,15 @@ public class ParallaxManager : GenericSingleton<ParallaxManager>
         CreateLayers(parallaxCount);
     }
 
+    void Start()
+    {
+        InitLayers();
+    }
+
     void Update()
     {
-        skewAmount = distance / ((float)parallaxCount);
+        skewAmountx = distancex / ((float)parallaxCount);
+        skewAmounty = distancey / ((float)parallaxCount);
         scaleAmount = maxScale / ((float)parallaxCount);
         UpdateLayers(PlayerManager.Instance.PlayerPosition);
     }
@@ -49,11 +58,25 @@ public class ParallaxManager : GenericSingleton<ParallaxManager>
                 layer = layerObj.AddComponent<ParallaxLayer>();
             }
             layer.totalLayers = parallaxCount;
-            if (i != 0) layer.Clear();
+
 
             layer.SetFactor(i);
-            layer.ApplyTint();
+            layer.ApplyTint(maxTint);
             layers.Add(layer);
+        }
+    }
+
+    void InitLayers()
+    {
+        for (int i = 0; i < parallaxCount; i++)
+        {
+            if (i == parallaxCount - 1) {
+                layers[i].Init(UnityEngine.Rendering.Universal.ShadowCaster2D.ShadowCastingOptions.CastAndSelfShadow, true);
+            } else if (i == 0) {
+                layers[i].Init(UnityEngine.Rendering.Universal.ShadowCaster2D.ShadowCastingOptions.NoShadow, false);
+            } else {
+                layers[i].Init(UnityEngine.Rendering.Universal.ShadowCaster2D.ShadowCastingOptions.NoShadow, true);
+            }
         }
     }
 
@@ -61,7 +84,7 @@ public class ParallaxManager : GenericSingleton<ParallaxManager>
     {
         foreach (ParallaxLayer layer in layers)
         {
-            layer.UpdateLayerPosition(playerPosition, skewAmount, scaleAmount);
+            layer.UpdateLayerPosition(playerPosition, skewAmountx, skewAmounty, scaleAmount);
         }
     }
 }
