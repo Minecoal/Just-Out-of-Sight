@@ -8,7 +8,9 @@ public class PlayerInputHandler : MonoBehaviour
     public Vector3 MousePosition { get; private set; }
 
     public KeyCode interactButton = KeyCode.E;
+    public KeyCode flashlightButton = KeyCode.F;
     public Action OnInteract;
+    public Action OnToggleFlashlight;
 
     void Update()
     {
@@ -28,6 +30,10 @@ public class PlayerInputHandler : MonoBehaviour
         if (Input.GetKeyDown(interactButton))
         {
             OnInteract?.Invoke();
+        }
+        if (Input.GetKeyDown(flashlightButton))
+        {
+            OnToggleFlashlight?.Invoke();
         }
     }
 }
