@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(PlayerInputHandler))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -7,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveSpeed  = 8f;
     [SerializeField] private float accelAmount = 12f;
     [SerializeField] private float decelAmount = 9f;
+    [SerializeField] private Light2D flashlight;
 
     private PlayerInputHandler input;
     private Rigidbody2D rb;
@@ -15,6 +17,7 @@ public class Player : MonoBehaviour
     {
         input = GetComponent<PlayerInputHandler>();
         rb = GetComponent<Rigidbody2D>();
+        input.OnToggleFlashlight += ToggleFlashlight;
     }
 
     void Update()
@@ -70,5 +73,10 @@ public class Player : MonoBehaviour
         float targetAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
         transform.rotation = Quaternion.Euler(0, 0, targetAngle);
+    }
+
+    public void ToggleFlashlight()
+    {
+        flashlight.enabled = !flashlight.enabled;
     }
 }

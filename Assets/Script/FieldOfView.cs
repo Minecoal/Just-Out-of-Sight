@@ -1,21 +1,30 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class FieldOfView : MonoBehaviour {
 
     [SerializeField] private LayerMask layerMask;
+    [SerializeField] private Light2D spotLight;
     private Mesh mesh;
-    [SerializeField] private float fov;
-    [SerializeField] private float viewDistance;
+    private float fov;
+    private float viewDistance;
     private Vector3 origin;
     private float startingAngle;
+
+    private bool isEnabled = true;
 
     private void Start() {
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
         origin = Vector3.zero;
+
+        fov = spotLight.pointLightOuterAngle;
+        viewDistance = spotLight.pointLightOuterRadius;
     }
 
     private void LateUpdate() {
+        if (!isEnabled) return;
+
         SetOrigin(PlayerManager.Instance.FlashLightPosition);
         SetAimDirection(PlayerManager.Instance.FlashLightRotation);  
 
@@ -36,11 +45,14 @@ public class FieldOfView : MonoBehaviour {
             RaycastHit2D raycastHit2D = Physics2D.Raycast(origin, GetVectorFromAngle(angle), viewDistance, layerMask);
             if (raycastHit2D.collider == null) {
                 // No hit
-                vertex = origin + GetVectorFromAngle(angle) * viewDistance;
+                vertex = origin + GetVectorFromAngle(angle) * viewDistance;                
             } else {
                 // Hit object
-                vertex = raycastHit2D.point;
+                Vector3 dir = GetVectorFromAngle(angle);
+                vertex = new Vector3(raycastHit2D.point.x, raycastHit2D.point.y, 0f) + dir * 1f;
             }
+
+           
             vertices[vertexIndex] = vertex;
 
             if (i > 0) {
@@ -62,20 +74,26 @@ public class FieldOfView : MonoBehaviour {
         mesh.bounds = new Bounds(origin, Vector3.one * 1000f);
     }
 
+    public void SetEnabled(bool value) {
+        isEnabled = value;
+
+        if (!value) {
+            mesh.Clear();
+        }
+
+        GetComponent<MeshRenderer>().enabled = value;
+    }
+
+    public void Toggle() {
+        SetEnabled(!isEnabled);
+    }
+
     public void SetOrigin(Vector3 origin) {
         this.origin = origin;
     }
 
     public void SetAimDirection(Vector3 aimDirection) {
         startingAngle = aimDirection.z + 90f + fov / 2f;
-    }
-
-    public void SetFoV(float fov) {
-        this.fov = fov;
-    }
-
-    public void SetViewDistance(float viewDistance) {
-        this.viewDistance = viewDistance;
     }
 
     public static float GetAngleFromVectorFloat(Vector3 dir)

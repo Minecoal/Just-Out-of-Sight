@@ -55,6 +55,7 @@ public class TextDisplayManager : PersistentGenericSingleton<TextDisplayManager>
 
         // ensure mesh renderer uses the font material so glyphs render
         var mr = textObject.GetComponent<MeshRenderer>();
+        textObject.layer = 5;
         if (mr != null && defaultFont != null && defaultFont.material != null)
         {
             mr.sharedMaterial = defaultFont.material;
