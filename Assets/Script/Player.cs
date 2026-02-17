@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
         input.OnToggleFlashlight += ToggleFlashlight;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         ApplyMovement(input.MoveInputNormalized, transform, rb);
         ApplyRotation(input.MousePosition, transform);
