@@ -8,6 +8,7 @@ public class WallUpdater : MonoBehaviour
     private ShadowCaster2D shadowCaster;
     private Collider2D collider2d;
     private NavMeshObstacle obstacle;
+    Color baseColor;
 
     void Awake()
     {
@@ -15,16 +16,17 @@ public class WallUpdater : MonoBehaviour
         shadowCaster = GetComponentInChildren<ShadowCaster2D>();
         collider2d = GetComponentInChildren<Collider2D>();
         obstacle = GetComponentInChildren<NavMeshObstacle>();
+        baseColor = sr.color;
     }
 
-    public void SetTint(float valueFactor)
+    public void SetTint(float valueFactor, float maxTint)
     {
         if (sr == null) return;
         
         Color c = sr.color;
-        c.r = c.r * valueFactor;
-        c.g = c.g * valueFactor;
-        c.b = c.b * valueFactor;
+        c.r = Mathf.Lerp(baseColor.r, 1 - maxTint, valueFactor);
+        c.g = Mathf.Lerp(baseColor.g, 1 - maxTint, valueFactor);
+        c.b = Mathf.Lerp(baseColor.b, 1 - maxTint, valueFactor);
         sr.color = c;
     }
 
@@ -32,16 +34,16 @@ public class WallUpdater : MonoBehaviour
     {
         Destroy(collider2d);
         Destroy(obstacle);
-        // Destroy(shadowCaster);
     }
 
-    public void SetCastType()
+    public void SetCastType(ShadowCaster2D.ShadowCastingOptions type)
     {
-        shadowCaster.castingOption = ShadowCaster2D.ShadowCastingOptions.CastShadow;
+        shadowCaster.castingOption = type;
     }
 
     public void SetRenderOrder(int i)
     {
-        sr.rendererPriority = i;
+        Debug.Log(i);
+        sr.sortingOrder = i;
     }
 }
