@@ -43,7 +43,6 @@ public class WallUpdater : MonoBehaviour
 
     public void SetRenderOrder(int i)
     {
-        Debug.Log(i);
         sr.sortingOrder = i;
     }
 }
