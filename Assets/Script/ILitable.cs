@@ -1,4 +1,4 @@
 public interface ILitable
 {
-    void SetLit(bool lit);
+    public void SetLit(bool lit);
 }

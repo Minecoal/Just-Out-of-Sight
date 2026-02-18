@@ -36,6 +36,8 @@ public class ParallaxManager : GenericSingleton<ParallaxManager>
 
     void CreateLayers(int parallaxCount)
     {
+        GameObject layersParent = new GameObject("ParallaxLayers");
+
         for (int i = 0; i < parallaxCount; i++)
         {
             GameObject layerObj;
@@ -44,10 +46,11 @@ public class ParallaxManager : GenericSingleton<ParallaxManager>
             {
                 // first layer uses original prefab
                 layerObj = wallPrefab;
+                layerObj.transform.SetParent(layersParent.transform);
             }
             else
             {
-                layerObj = Instantiate(wallPrefab, wallPrefab.transform.parent);
+                layerObj = Instantiate(wallPrefab, layersParent.transform);
                 
             }
 
