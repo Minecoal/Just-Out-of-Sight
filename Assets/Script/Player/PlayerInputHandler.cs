@@ -9,8 +9,10 @@ public class PlayerInputHandler : MonoBehaviour
 
     public KeyCode interactButton = KeyCode.E;
     public KeyCode flashlightButton = KeyCode.F;
+    public KeyCode dropItemButton = KeyCode.Q;
     public Action OnInteract;
     public Action OnToggleFlashlight;
+    public Action OnDropItem;
 
     void Update()
     {
@@ -34,6 +36,10 @@ public class PlayerInputHandler : MonoBehaviour
         if (Input.GetKeyDown(flashlightButton))
         {
             OnToggleFlashlight?.Invoke();
+        }
+        if (Input.GetKeyDown(dropItemButton))
+        {
+            OnDropItem?.Invoke();
         }
     }
 }

@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
         input = GetComponent<PlayerInputHandler>();
         rb = GetComponent<Rigidbody2D>();
         input.OnToggleFlashlight += ToggleFlashlight;
+        input.OnDropItem += DropItem;
     }
 
     void FixedUpdate()
@@ -80,5 +81,10 @@ public class Player : MonoBehaviour
     {
         flashlight.enabled = !flashlight.enabled;
         flashlightSelfLight.enabled = !flashlightSelfLight.enabled;
+    }
+
+    public void DropItem()
+    {
+        InventoryManager.Instance.DropItem();
     }
 }
