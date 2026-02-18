@@ -136,6 +136,7 @@ MonoBehaviour:
   - {fileID: 6066084566679172417}
   - {fileID: 868174897455787639}
   - {fileID: 2000762397398363335}
+  interactionCollider: {fileID: 5582927796634140492}
 --- !u!61 &5582927796634140492
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -764,6 +765,7 @@ MonoBehaviour:
   - {fileID: 8655398146127679833}
   - {fileID: 8434811696581791218}
   - {fileID: 6519442932177045318}
+  interactionCollider: {fileID: 1481181303786489505}
 --- !u!61 &1481181303786489505
 BoxCollider2D:
   m_ObjectHideFlags: 0
