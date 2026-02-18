@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class CollectableItem : MonoBehaviour, IInteractable
+public class CollectableItem : MonoBehaviour, IInteractHandler
 {
     public ItemClass item;
 
-    public void OnInteract()
+    public void Interact()
     {
         if(InventoryManager.Instance.GetItem() == null)
         {
