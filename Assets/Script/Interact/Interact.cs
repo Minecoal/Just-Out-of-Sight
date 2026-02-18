@@ -5,7 +5,7 @@ public class Interact : MonoBehaviour
     [SerializeField] private Collider2D interactCollider;
     [SerializeField] private InteractUI interactUI;
 
-    private IInteractable currentInteractable;
+    private IInteractHandler currentInteractable;
 
     void Awake()
     {
@@ -16,13 +16,13 @@ public class Interact : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) && currentInteractable != null)
         {
-            currentInteractable.OnInteract();
+            currentInteractable.Interact();
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        IInteractable interactable = other.GetComponent<IInteractable>();
+        IInteractHandler interactable = other.GetComponent<IInteractHandler>();
         if (interactable != null)
         {
             currentInteractable = interactable;
@@ -33,7 +33,7 @@ public class Interact : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        IInteractable interactable = other.GetComponent<IInteractable>();
+        IInteractHandler interactable = other.GetComponent<IInteractHandler>();
         if (interactable == currentInteractable)
         {
             currentInteractable = null;
