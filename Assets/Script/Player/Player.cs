@@ -13,11 +13,13 @@ public class Player : MonoBehaviour
 
     private PlayerInputHandler input;
     private Rigidbody2D rb;
+    private Animator anim;
 
     void Start()
     {
         input = GetComponent<PlayerInputHandler>();
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponentInChildren<Animator>();
         input.OnToggleFlashlight += ToggleFlashlight;
         input.OnDropItem += DropItem;
     }
@@ -26,6 +28,8 @@ public class Player : MonoBehaviour
     {
         ApplyMovement(input.MoveInputNormalized, transform, rb);
         ApplyRotation(input.MousePosition, transform);
+
+        anim.SetFloat("Speed", input.MoveInputNormalized.magnitude);
     }
 
     public void ApplyMovement(Vector3 input, Transform transform, Rigidbody2D rb)
