@@ -89,8 +89,9 @@ GameObject:
   - component: {fileID: 3500119481959137148}
   - component: {fileID: 1880876967233810446}
   - component: {fileID: 5582927796634140492}
+  - component: {fileID: 2983632296476245678}
   m_Layer: 0
-  m_Name: Right Door
+  m_Name: Left Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10d0f7c2ed362450ab8ee98b9d384d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
-  isOneWay: 1
+  isOneWay: 0
   connectedDoor: {fileID: 7825683196496931492}
   closeGO: {fileID: 7335781580361214259}
   openGO: {fileID: 6357167722633202175}
@@ -183,6 +184,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.6310916, y: 1.0833372}
   m_EdgeRadius: 0
+--- !u!114 &2983632296476245678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781694760179655166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a34386bf0444ca0a87b859ce03fbd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemInteractionAdaptor
 --- !u!1 &1032549411218713034
 GameObject:
   m_ObjectHideFlags: 0
@@ -623,6 +636,7 @@ GameObject:
   - component: {fileID: 2844778792746316854}
   - component: {fileID: 5480291854081580497}
   - component: {fileID: 8634509058725859728}
+  - component: {fileID: 5348131069585233276}
   m_Layer: 0
   m_Name: Left - Right Door
   m_TagString: Untagged
@@ -639,7 +653,7 @@ Transform:
   m_GameObject: {fileID: 6592342092722181895}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.242, y: 0.701, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -691,7 +705,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.7030182, y: 2.1274824}
+  m_Size: {x: 1.13, y: 2.1274824}
   m_EdgeRadius: 0
 --- !u!114 &8634509058725859728
 MonoBehaviour:
@@ -707,6 +721,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EntireDoor
   door1: {fileID: 7825683196496931492}
   door2: {fileID: 1880876967233810446}
+--- !u!208 &5348131069585233276
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6592342092722181895}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.54, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 0.54, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &6977965680318423650
 GameObject:
   m_ObjectHideFlags: 0
@@ -718,8 +748,9 @@ GameObject:
   - component: {fileID: 5498457398616996004}
   - component: {fileID: 7825683196496931492}
   - component: {fileID: 1481181303786489505}
+  - component: {fileID: 2613749012558279468}
   m_Layer: 0
-  m_Name: Left Door
+  m_Name: Right Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -812,6 +843,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.50507927, y: 1.1828204}
   m_EdgeRadius: 0
+--- !u!114 &2613749012558279468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6977965680318423650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a34386bf0444ca0a87b859ce03fbd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemInteractionAdaptor
 --- !u!1 &7335781580361214259
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ public class ItemRequirement : MonoBehaviour, IInteractHandler
     {
         interactable = GetComponent<IInteractable>();
         if (interactable == null)
-            Debug.LogError("ItemRequirement requires an IInteractable on the same GO");
+            Debug.LogError($"ItemRequirement requires an IInteractable on the same GameObject: {gameObject.name}", this);
     }
 
     public void Interact()

@@ -6,16 +6,16 @@ public class WallUpdater : MonoBehaviour
 {
     private SpriteRenderer sr;
     private ShadowCaster2D shadowCaster;
-    private Collider2D collider2d;
-    private NavMeshObstacle obstacle;
+    private Collider2D[] collider2d;
+    private NavMeshObstacle[] obstacle;
     Color baseColor;
 
     void Awake()
     {
         sr = GetComponentInChildren<SpriteRenderer>();
         shadowCaster = GetComponentInChildren<ShadowCaster2D>();
-        collider2d = GetComponentInChildren<Collider2D>();
-        obstacle = GetComponentInChildren<NavMeshObstacle>();
+        collider2d = GetComponentsInChildren<Collider2D>();
+        obstacle = GetComponentsInChildren<NavMeshObstacle>();
         baseColor = sr.color;
     }
 
@@ -32,8 +32,15 @@ public class WallUpdater : MonoBehaviour
 
     public void Clear()
     {
-        Destroy(collider2d);
-        Destroy(obstacle);
+        for (int i = 0; i < collider2d.Length; i++)
+        {
+            Destroy(collider2d[i]);
+        }
+        for (int i = 0; i < obstacle.Length; i++)
+        {
+            Destroy(obstacle[i]);
+        }
+        
     }
 
     public void SetCastType(ShadowCaster2D.ShadowCastingOptions type)

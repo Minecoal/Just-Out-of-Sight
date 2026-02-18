@@ -22,6 +22,7 @@ public class Door : MonoBehaviour, IInteractable
 
     private bool isLit;
     private DoorState state;
+    public DoorState State => state;
 
     void Awake()
     {

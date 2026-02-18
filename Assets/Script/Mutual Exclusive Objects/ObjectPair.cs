@@ -3,13 +3,13 @@ using UnityEngine;
 [System.Serializable]
 public class ObjectPair : MonoBehaviour
 {
-    [SerializeField] private StationaryObject[] objects;
+    [SerializeField] private StationaryObjectGroup[] objectGroups;
 
     void LateUpdate()
     {
-        StationaryObject litAndVisibleObject = null;
+        StationaryObjectGroup litAndVisibleObject = null;
 
-        foreach (var obj in objects)
+        foreach (var obj in objectGroups)
         {
             if (obj.IsLit && obj.IsVisible)
             {
@@ -20,13 +20,13 @@ public class ObjectPair : MonoBehaviour
 
         if (litAndVisibleObject == null)
         {
-            foreach(var obj in objects)
+            foreach(var obj in objectGroups)
             {
                 if (!obj.IsVisible && obj.IsLit) continue;
                 obj.SetVisibility(true);
             }
         } else {
-            foreach (var obj in objects)
+            foreach (var obj in objectGroups)
             {
                 if (!obj.IsVisible && obj.IsLit) continue;
                 if (obj == litAndVisibleObject)
@@ -42,5 +42,46 @@ public class ObjectPair : MonoBehaviour
                 }
             }
         }
+    }
+}
+
+[System.Serializable]
+public class StationaryObjectGroup
+{
+    public StationaryObject[] objects;
+
+    public bool IsLit => CheckIsLit();
+    public bool IsVisible => CheckIsVisible();
+
+    private bool CheckIsLit()
+    {      
+        foreach (StationaryObject obj in objects){
+            if (obj.IsLit) return true;
+        }
+        return false;
+    }
+
+    private bool CheckIsVisible()
+    {      
+        foreach (StationaryObject obj in objects){
+            if (obj.IsVisible) return true;
+        }
+        return false;
+    }
+
+
+    public void SetLit(bool lit)
+    {
+        foreach (StationaryObject obj in objects){
+            obj.SetLit(lit);
+        }
+    }
+
+    public void SetVisibility(bool vis)
+    {
+        foreach (StationaryObject obj in objects){
+            obj.SetVisibility(vis);
+        }
+        
     }
 }

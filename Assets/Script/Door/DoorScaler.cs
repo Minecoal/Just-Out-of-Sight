@@ -16,11 +16,17 @@ public class DoorScaler : MonoBehaviour
         Vector3 playerPosition = PlayerManager.Instance.PlayerPosition;
         switch (dir)
         {
+            // case DoorDir.Up:
+            //     transform.localScale = new Vector3(originalScale.x, originalScale.y * (playerPosition.y - transform.position.y) * scaleConst * 0.01f, 1f);
+            //     break;
+            // case DoorDir.Down:
+            //     transform.localScale = new Vector3(-originalScale.x, originalScale.y * (playerPosition.y - transform.position.y) * scaleConst * 0.01f, 1f);
+            //     break;
             case DoorDir.Up:
-                transform.localScale = new Vector3(originalScale.x, originalScale.y * (playerPosition.y - transform.position.y) * scaleConst * 0.01f, 1f);
+                transform.localScale = new Vector3(-originalScale.x * (playerPosition.y - transform.position.y) * scaleConst * 0.01f, originalScale.y, 1f);
                 break;
             case DoorDir.Down:
-                transform.localScale = new Vector3(-originalScale.x, originalScale.y * (playerPosition.y - transform.position.y) * scaleConst * 0.01f, 1f);
+                transform.localScale = new Vector3(originalScale.x * (playerPosition.y - transform.position.y) * scaleConst * 0.01f, originalScale.y, 1f);
                 break;
             case DoorDir.Left:
                 transform.localScale = new Vector3(originalScale.x * (playerPosition.x - transform.position.x) * scaleConst * 0.01f, originalScale.y, 1f);
