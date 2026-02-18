@@ -17,6 +17,9 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField] private Transform anchor;
     [SerializeField] private List<SpriteRenderer> allVisuals;
 
+    [Header("Interaction")]
+    [SerializeField] private Collider2D interactionCollider;
+
     private bool isLit;
     private DoorState state;
 
@@ -38,7 +41,7 @@ public class Door : MonoBehaviour, IInteractable
         // only for one way door
         if (isOneWay)
         {
-            if (state == DoorState.Open && !isLit)
+            if (state != DoorState.InvisibleWall && !isLit)
             {
                 SetState(DoorState.InvisibleWall);
                 connectedDoor.SetState(DoorState.Closed);
@@ -72,6 +75,7 @@ public class Door : MonoBehaviour, IInteractable
         openGO.SetActive(state == DoorState.Open);
         invisibleWall.SetActive(state == DoorState.InvisibleWall);
         topFrame.SetActive(state != DoorState.InvisibleWall);
+        interactionCollider.enabled = state != DoorState.InvisibleWall;
 
     }
 
