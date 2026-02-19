@@ -11,6 +11,7 @@ public class PrefabPainter2D : EditorWindow
     private bool isEnablePainter = true;
     private float heightOffset = 0f;
     private GameObject previewInstance;
+    private GameObject lastPreviewedPrefab;
 
     [MenuItem("Tools/2D Prefab Painter")]
     public static void ShowWindow() => GetWindow<PrefabPainter2D>("2D Prefab Painter");
@@ -21,6 +22,7 @@ public class PrefabPainter2D : EditorWindow
 
         // Enable/disable
         isEnablePainter = GUILayout.Toggle(isEnablePainter, isEnablePainter ? "Enabled" : "Disabled", "Button");
+        if (!isEnablePainter) DestroyPreview();
 
         // Drag & drop
         GUILayout.Label("Drag prefabs here:");
@@ -97,7 +99,7 @@ public class PrefabPainter2D : EditorWindow
         if (!xyPlane.Raycast(ray, out float enter)) return;
 
         Vector3 pos = ray.GetPoint(enter) + new Vector3(0, 0, heightOffset);
-        Quaternion rot = Quaternion.identity;
+        Quaternion rot = prefab.transform.rotation;
 
         // Draw preview
         if (!eraseMode)
@@ -140,25 +142,28 @@ public class PrefabPainter2D : EditorWindow
     {
         if (prefab == null) return;
 
-        if (previewInstance == null || previewInstance.name != prefab.name + "_Preview")
+        // Destroy previous preview if prefab changed
+        if (previewInstance == null || lastPreviewedPrefab != prefab)
         {
             DestroyPreview();
-            previewInstance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+            previewInstance = (GameObject)PrefabUtility.InstantiatePrefab(prefab) as GameObject;
             previewInstance.name = prefab.name + "_Preview";
 
-            // Disable colliders and scripts so it doesn’t interact
+            // Disable colliders and scripts
             foreach (var col in previewInstance.GetComponentsInChildren<Collider2D>())
                 col.enabled = false;
 
             foreach (var mb in previewInstance.GetComponentsInChildren<MonoBehaviour>())
                 mb.enabled = false;
+
+            lastPreviewedPrefab = prefab;
         }
 
-        // Set position and rotation
+        // Set position and rotation (conserve prefab rotation)
         previewInstance.transform.position = position;
         previewInstance.transform.rotation = rotation;
 
-        // Make it semi-transparent
+        // Make semi-transparent
         foreach (var sr in previewInstance.GetComponentsInChildren<SpriteRenderer>())
         {
             Color c = sr.color;
@@ -170,6 +175,10 @@ public class PrefabPainter2D : EditorWindow
     private void DestroyPreview()
     {
         if (previewInstance != null)
+        {
             DestroyImmediate(previewInstance);
+            previewInstance = null;
+            lastPreviewedPrefab = null;
+        }
     }
 }
