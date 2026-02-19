@@ -12,7 +12,7 @@ public class StationaryObject : MonoBehaviour, ILitable
     {
         isLit = false;
         isVisible = true;
-        TextDisplayManager.New3D(Vector3.zero, 0.1f).WithParent(transform).WithTrackedProvider(() => $"{isLit}").Build();
+        // TextDisplayManager.New3D(Vector3.zero, 0.1f).WithParent(transform).WithTrackedProvider(() => $"{isLit}").Build();
     }
 
     public void SetLit(bool lit)

@@ -117,7 +117,7 @@ public class SoundManager : GenericSingleton<SoundManager>
         tempSource.spatialBlend = 0f; 
         tempSource.Play();
 
-        Destroy(tempGO, sound.clip.length / pitch + 10f); // divide by pitch so length matches playback
+        Destroy(tempGO, sound.clip.length / pitch); // divide by pitch so length matches playback
     }
 
 
