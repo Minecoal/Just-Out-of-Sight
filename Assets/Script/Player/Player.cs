@@ -9,14 +9,19 @@ public class Player : MonoBehaviour
     [SerializeField] private float accelAmount = 12f;
     [SerializeField] private float decelAmount = 9f;
     [SerializeField] private Light2D flashlight;
+    [SerializeField] private PolygonCollider2D flashlightCollider;
     [SerializeField] private Light2D flashlightSelfLight;
 
     private PlayerInputHandler input;
     private Rigidbody2D rb;
     private Animator anim;
 
+    private PlayerState currentState;
+    private bool footstepPlaying = false;
+
     void Start()
     {
+        currentState = PlayerState.Walking;
         input = GetComponent<PlayerInputHandler>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
@@ -30,6 +35,19 @@ public class Player : MonoBehaviour
         ApplyRotation(input.MousePosition, transform);
 
         anim.SetFloat("Speed", input.MoveInputNormalized.magnitude);
+        currentState = input.MoveInputNormalized.magnitude > 0.01f ? PlayerState.Walking : PlayerState.Idle;
+
+
+        if (currentState == PlayerState.Walking)
+        {
+            if (footstepPlaying) return;
+            SoundManager.Instance.PlaySFXOn2nd(SoundManager.Footstep3, transform.position, loop: true);
+            footstepPlaying = true;
+        } else {
+            if (!footstepPlaying) return;
+            SoundManager.Instance.StopSFXOn2nd();
+            footstepPlaying = false;
+        }
     }
 
     public void ApplyMovement(Vector3 input, Transform transform, Rigidbody2D rb)
@@ -84,11 +102,24 @@ public class Player : MonoBehaviour
     public void ToggleFlashlight()
     {
         flashlight.enabled = !flashlight.enabled;
+        flashlightCollider.enabled = !flashlightCollider.enabled;
         flashlightSelfLight.enabled = !flashlightSelfLight.enabled;
+        if (flashlight.enabled){
+            SoundManager.Instance.PlaySFXAtPosition(SoundManager.FlashlightOn, transform.position);
+        } else {
+            SoundManager.Instance.PlaySFXAtPosition(SoundManager.FlashlightOn, transform.position, pitchOverride: 0.8f);
+        }
     }
 
     public void DropItem()
     {
         InventoryManager.Instance.DropItem();
     }
+
+    private enum PlayerState
+    {
+        Idle,
+        Walking
+    }
 }
+

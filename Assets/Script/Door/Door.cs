@@ -61,10 +61,12 @@ public class Door : MonoBehaviour, IInteractable
         {
             SetState(DoorState.Open);
             connectedDoor.SetState(DoorState.Open);
+            SoundManager.Instance.PlaySFXAtPosition(SoundManager.OpenDoor, transform.position);
         } else{
             SetState(DoorState.Closed);
             if (connectedDoor.isOneWay == true) return;
             connectedDoor.SetState(DoorState.Closed); 
+            SoundManager.Instance.PlaySFXAtPosition(SoundManager.CloseDoor, transform.position);
         }
     }
 

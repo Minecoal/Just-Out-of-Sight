@@ -23,12 +23,18 @@ public class Chaser : MonoBehaviour, ILitable
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        agent.speed = 2f;
     }
 
     void Update()
     {
-        targetPos = PlayerManager.Instance.PlayerPosition;
-        agent.speed = chaseSpeed;
-        agent.SetDestination(targetPos);
+        if (isLit)
+        {
+            agent.SetDestination(transform.position);
+        } else {
+            targetPos = PlayerManager.Instance.PlayerPosition;
+            agent.speed = chaseSpeed;
+            agent.SetDestination(targetPos);
+        }
     }
 }

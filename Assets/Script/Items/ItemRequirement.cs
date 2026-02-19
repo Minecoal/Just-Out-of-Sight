@@ -32,6 +32,7 @@ public class ItemRequirement : MonoBehaviour, IInteractHandler
         {
             // wrong or missing item
             TextDisplayManager.New3D(PlayerManager.Instance.PlayerPosition, 0.1f).WithInitialText($"I need a {requiredItem.itemName}").WithAutoDestroy(2f).Build();
+            SoundManager.Instance.PlaySFXAtPosition(SoundManager.OpenLockDoor, PlayerManager.Instance.PlayerPosition);
             return;
         }
 

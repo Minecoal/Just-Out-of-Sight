@@ -25,6 +25,8 @@ public class InventoryManager : GenericSingleton<InventoryManager>
             item = itemToAdd;
             itemSlotImage.enabled = true;
             itemSlotImage.sprite = item.itemIcon;
+
+            SoundManager.Instance.PlaySFXAtPosition(SoundManager.PickUp, PlayerManager.Instance.PlayerPosition);
         }
     }
 
@@ -42,6 +44,7 @@ public class InventoryManager : GenericSingleton<InventoryManager>
             GameObject g = GameObject.Instantiate(droppedItemPrefab, PlayerManager.instance.PlayerPosition, Quaternion.identity);
             g.GetComponent<CollectableItem>().SetItem(item);
             RemoveItem();
+            SoundManager.Instance.PlaySFXAtPosition(SoundManager.PickUp, PlayerManager.Instance.PlayerPosition, pitchOverride:0.8f);
         }
         
     }
