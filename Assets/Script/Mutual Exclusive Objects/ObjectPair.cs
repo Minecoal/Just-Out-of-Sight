@@ -5,6 +5,8 @@ public class ObjectPair : MonoBehaviour
 {
     [SerializeField] private StationaryObjectGroup[] objectGroups;
 
+    private StationaryObjectGroup lastActiveGroup = null;
+
     void LateUpdate()
     {
         StationaryObjectGroup litAndVisibleObject = null;
@@ -16,6 +18,11 @@ public class ObjectPair : MonoBehaviour
                 litAndVisibleObject = obj;
                 break; // only consider the first lit object that is visible
             }
+        }
+
+        if (litAndVisibleObject != null)
+        {
+            SetLastActiveGroup(litAndVisibleObject);
         }
 
         if (litAndVisibleObject == null)
@@ -42,6 +49,15 @@ public class ObjectPair : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SetLastActiveGroup(StationaryObjectGroup objectGroup)
+    {
+        if (objectGroup == null) return;
+        if (lastActiveGroup == objectGroup) return;
+        string id = (Random.value < 0.5f) ? SoundManager.Teleport1 : SoundManager.Teleport2;
+        SoundManager.Instance.PlaySFXAtPosition(id, PlayerManager.Instance.PlayerPosition, pitchOverride: 3f);
+        lastActiveGroup = objectGroup;
     }
 }
 
