@@ -15,6 +15,7 @@ public class SoundManager : GenericSingleton<SoundManager>
     public static readonly string Teleport1 = "teleport1";
     public static readonly string Teleport2 = "teleport2";
     public static readonly string AmbientGlitch = "ambientglitch";
+    public static readonly string Tinnitus = "tinnitus";
 
     [System.Serializable]
     private class SoundEntry
@@ -41,7 +42,6 @@ public class SoundManager : GenericSingleton<SoundManager>
 
     [Header("Secondary Ambient")]
     [SerializeField] private AudioClip passiveAmbientClip;
-
 
     private Dictionary<string, SoundEntry> soundLookup;
 

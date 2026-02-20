@@ -27,6 +27,9 @@ public class InventoryManager : GenericSingleton<InventoryManager>
             itemSlotImage.sprite = item.itemIcon;
 
             SoundManager.Instance.PlaySFXAtPosition(SoundManager.PickUp, PlayerManager.Instance.PlayerPosition);
+        } else
+        {
+            TextDisplayManager.New3D(Vector3.zero, 0.1f).WithInitialText("I can't hold more things").WithAutoDestroy(2f).Build();
         }
     }
 

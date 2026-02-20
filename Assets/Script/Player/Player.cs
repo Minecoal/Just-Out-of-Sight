@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Light2D flashlight;
     [SerializeField] private PolygonCollider2D flashlightCollider;
     [SerializeField] private Light2D flashlightSelfLight;
+    [SerializeField] private int playerHealth = 3;
 
     private PlayerInputHandler input;
     private Rigidbody2D rb;
@@ -19,9 +20,14 @@ public class Player : MonoBehaviour
     private PlayerState currentState;
     private bool footstepPlaying = false;
 
+    void Awake()
+    {
+        playerHealth = 3;
+        currentState = PlayerState.Idle;
+    }
+
     void Start()
     {
-        currentState = PlayerState.Walking;
         input = GetComponent<PlayerInputHandler>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
@@ -99,11 +105,12 @@ public class Player : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, targetAngle);
     }
 
-    public void ToggleFlashlight()
+    public void ToggleFlashlight(bool enable)
     {
-        flashlight.enabled = !flashlight.enabled;
-        flashlightCollider.enabled = !flashlightCollider.enabled;
-        flashlightSelfLight.enabled = !flashlightSelfLight.enabled;
+        if (flashlight.enabled == enable) return;
+        flashlight.enabled = enable;
+        flashlightCollider.enabled = enable;
+        flashlightSelfLight.enabled = enable;
         if (flashlight.enabled){
             SoundManager.Instance.PlaySFXAtPosition(SoundManager.FlashlightOn, transform.position);
         } else {
@@ -111,9 +118,26 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void ToggleFlashlight()
+    {
+        ToggleFlashlight(!flashlight.enabled);
+    }
+
     public void DropItem()
     {
         InventoryManager.Instance.DropItem();
+    }
+
+    public void PlayerHit()
+    {
+        playerHealth--;
+
+        if (playerHealth <= 0)
+        {
+            GameManager.Instance.PlayerDeath();
+        } else {
+            GameManager.Instance.PlayerHit();
+        }
     }
 
     private enum PlayerState
