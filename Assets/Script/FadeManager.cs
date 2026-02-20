@@ -25,6 +25,11 @@ public class FadeManager : GenericSingleton<FadeManager>
         }
     }
 
+    void Update()
+    {
+    
+    }
+
     public void StartFade(
         float onFadeDuration,
         float duringFadeDuration,

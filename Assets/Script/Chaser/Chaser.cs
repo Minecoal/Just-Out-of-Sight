@@ -62,8 +62,8 @@ public class Chaser : MonoBehaviour, ILitable
         audioSource = GetComponent<AudioSource>();
         lowPass = GetComponent<AudioLowPassFilter>();
 
+        lowPass.cutoffFrequency = farCutoff;
         SoundManager.Instance.PlaySFX(SoundManager.AmbientGlitch, audioSource, loop : true);
-        lowPass.cutoffFrequency = movingCutoff;
         previousState = currentState;
     }
 

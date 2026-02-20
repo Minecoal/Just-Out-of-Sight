@@ -5,17 +5,25 @@ using UnityEngine;
 public class GameManager : PersistentGenericSingleton<GameManager>
 {
     [Header("Game Settings")]
-    [SerializeField] private float fadeDuration = 1;
+    [SerializeField] private float fadeDuration = 2f;
+    private bool isTransitioning = false;
 
-    public void PlayerHit()
+    public IEnumerator PlayerHit()
     {
-        // SoundManager.Instance.PlaySFXAtPosition(SoundManager.Tinnitus, PlayerManager.Instance.PlayerPosition);
-        // StartCoroutine(FadeOutInVolumeRoutine(fadeDuration));
-        // Debug.Log("Player Hit");
-        // InventoryManager.Instance.DropItem();
-        // ChaserManager.Instance.ForceResetAllChasers();
-        // PlayerManager.Instance.ResetPlayerPosition();
-        // PlayerManager.Instance.ToggleFlashlight(false);
+        if (isTransitioning) yield break;
+        isTransitioning = true;
+        Debug.Log("Player Hit");
+        SoundManager.Instance.PlaySFXAtPosition(SoundManager.Tinnitus, PlayerManager.Instance.PlayerPosition);
+        FadeManager.Instance.StartFade(fadeDuration, fadeDuration, fadeDuration);
+        PlayerManager.Instance.ToggleInput(false);
+        yield return FadeVolumeRoutine(false, fadeDuration);
+        InventoryManager.Instance.DropItem();
+        ChaserManager.Instance.ForceResetAllChasers();
+        PlayerManager.Instance.ResetPlayerPosition();
+        PlayerManager.Instance.ToggleFlashlight(false);
+        yield return FadeVolumeRoutine(true, fadeDuration);
+        PlayerManager.Instance.ToggleInput(true);
+        isTransitioning = false;
     }
 
     public void PlayerDeath()
@@ -32,13 +40,6 @@ public class GameManager : PersistentGenericSingleton<GameManager>
 
         fadeVolumeRoutine = StartCoroutine(FadeVolumeRoutine(fadeIn, duration));
     }
-
-    public IEnumerator FadeOutInVolumeRoutine(float duration)
-    {
-        yield return FadeVolumeRoutine(false, duration / 2f);
-        yield return FadeVolumeRoutine(true, duration / 2f);
-    }
-
     private IEnumerator FadeVolumeRoutine(bool fadeIn, float duration)
     {
         float start = AudioListener.volume;

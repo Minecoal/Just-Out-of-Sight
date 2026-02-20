@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     private PlayerState currentState;
     private bool footstepPlaying = false;
 
+    private bool allowInput = true;
+
     void Awake()
     {
         playerHealth = 3;
@@ -37,8 +39,14 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        ApplyMovement(input.MoveInputNormalized, transform, rb);
-        ApplyRotation(input.MousePosition, transform);
+        if (allowInput)
+        {
+            ApplyMovement(input.MoveInputNormalized, transform, rb);
+            ApplyRotation(input.MousePosition, transform);
+        } else {
+            ApplyMovement(Vector2.zero, transform, rb);
+        }
+        
 
         anim.SetFloat("Speed", input.MoveInputNormalized.magnitude);
         currentState = input.MoveInputNormalized.magnitude > 0.01f ? PlayerState.Walking : PlayerState.Idle;
@@ -136,8 +144,13 @@ public class Player : MonoBehaviour
         {
             GameManager.Instance.PlayerDeath();
         } else {
-            GameManager.Instance.PlayerHit();
+            StartCoroutine(GameManager.Instance.PlayerHit());
         }
+    }
+
+    public void ToggleInput(bool enable)
+    {
+        allowInput = enable;
     }
 
     private enum PlayerState

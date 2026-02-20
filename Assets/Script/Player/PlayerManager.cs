@@ -24,4 +24,9 @@ public class PlayerManager : GenericSingleton<PlayerManager>
     {
         Player.PlayerHit();
     }
+
+    public void ToggleInput(bool enable)
+    {
+        Player.ToggleInput(enable);
+    }
 }
