@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public class Chaser : MonoBehaviour, ILitable
 {
@@ -10,11 +11,21 @@ public class Chaser : MonoBehaviour, ILitable
 
     private enum State { Idle, Moving }
     private State currentState = State.Moving;
+    private State previousState = 0;
 
     public ChaserSpawnpoint CurrentSpawnpoint { get; set; }
 
     private Vector3 targetPos;
     private NavMeshAgent agent;
+
+    [Header("Sound")]
+    private AudioSource audioSource;
+    private AudioLowPassFilter lowPass;
+
+    [SerializeField] private float movingCutoff = 6000f; // normal
+    [SerializeField] private float idleCutoff = 1000f; //muffle
+    [SerializeField] private float farCutoff = 1f; //muffle
+    [SerializeField] private float maxHearingDistance = 4f;
 
     public void SetLit(bool lit)
     {
@@ -46,9 +57,22 @@ public class Chaser : MonoBehaviour, ILitable
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.speed = chaseSpeed;
+
+        audioSource = GetComponent<AudioSource>();
+        lowPass = GetComponent<AudioLowPassFilter>();
+
+        SoundManager.Instance.PlaySFX(SoundManager.AmbientGlitch, audioSource, loop : true);
+        lowPass.cutoffFrequency = movingCutoff;
+        previousState = currentState;
     }
 
     void Update()
+    {
+        UpdateState();
+        UpdateDistanceAudio();
+    }
+
+    private void UpdateState()
     {
         if (isLit)
         {
@@ -96,4 +120,32 @@ public class Chaser : MonoBehaviour, ILitable
             }
         }
     }
+
+    private void UpdateDistanceAudio()
+    {
+        if (!audioSource.isPlaying)
+            return;
+
+        float distance = Vector3.Distance(
+            transform.position,
+            PlayerManager.Instance.PlayerPosition
+        );
+
+        // 1 = close, 0 = out of range
+        float t = Mathf.Clamp01(1f - distance / maxHearingDistance);
+
+        float stateCutoff = currentState == State.Moving
+            ? movingCutoff
+            : idleCutoff;
+
+        float targetCutoff = Mathf.Lerp(farCutoff, stateCutoff, t);
+
+        lowPass.cutoffFrequency = Mathf.Lerp(
+            lowPass.cutoffFrequency,
+            targetCutoff,
+            Time.deltaTime * 6f
+        );
+    }
+
+
 }
