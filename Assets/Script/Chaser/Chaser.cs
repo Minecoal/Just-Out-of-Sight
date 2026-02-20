@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System;
+using UnityEngine.UIElements;
 
 public class Chaser : MonoBehaviour, ILitable
 {
@@ -61,8 +62,8 @@ public class Chaser : MonoBehaviour, ILitable
         audioSource = GetComponent<AudioSource>();
         lowPass = GetComponent<AudioLowPassFilter>();
 
+        lowPass.cutoffFrequency = farCutoff;
         SoundManager.Instance.PlaySFX(SoundManager.AmbientGlitch, audioSource, loop : true);
-        lowPass.cutoffFrequency = movingCutoff;
         previousState = currentState;
     }
 
@@ -115,9 +116,14 @@ public class Chaser : MonoBehaviour, ILitable
                     CurrentSpawnpoint = newSpawn;
 
                     idleTimer = 0f;
-                    currentState = State.Moving;
+                    currentState = State.Idle;
                 }
             }
+        }
+
+        if (currentState == State.Moving && Vector2.Distance(PlayerManager.Instance.PlayerPosition, transform.position) <= 1f)
+        {
+            PlayerManager.Instance.HitPlayer();
         }
     }
 

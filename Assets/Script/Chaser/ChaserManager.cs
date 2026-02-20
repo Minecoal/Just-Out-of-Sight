@@ -48,4 +48,12 @@ public class ChaserManager : GenericSingleton<ChaserManager>
     {
         return TryGetAvailableResetPosition(out position, out _);
     }
+
+    public void ForceResetAllChasers()
+    {
+        foreach(ChaserSpawnpoint sp in spawnpoints)
+        {
+            sp.ForceReset();
+        }
+    }
 }

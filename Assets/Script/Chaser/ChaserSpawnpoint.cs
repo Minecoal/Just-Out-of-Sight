@@ -25,6 +25,12 @@ public class ChaserSpawnpoint : MonoBehaviour, ILitable
 
     public bool IsAvailable()
     {
-        return !isLit && chaser == null;
+        return !isLit && chaser == null && Vector2.Distance(PlayerManager.Instance.PlayerPosition, transform.position) > 6f;
+    }
+
+    public void ForceReset()
+    {
+        if (chaser == null) return;
+        chaser.transform.position = transform.position;
     }
 }
