@@ -14,6 +14,17 @@ public class Interact : MonoBehaviour
 
     void Update()
     {
+        // interactable destroyed or disabled
+        if (currentInteractable != null)
+        {
+            var mb = currentInteractable as MonoBehaviour;
+            if (mb == null || !mb || !mb.gameObject.activeInHierarchy)
+            {
+                ClearInteractable();
+                return;
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.E) && currentInteractable != null)
         {
             currentInteractable.Interact();
@@ -27,7 +38,7 @@ public class Interact : MonoBehaviour
         {
             currentInteractable = interactable;
             Vector3 colliderPosition = other.bounds.center;
-            interactUI.Show(colliderPosition, "E");
+            interactUI.Show(colliderPosition, interactable.GetUIText());
         }
     }
 
@@ -39,5 +50,11 @@ public class Interact : MonoBehaviour
             currentInteractable = null;
             interactUI.Hide();
         }
+    }
+
+    private void ClearInteractable()
+    {
+        currentInteractable = null;
+        interactUI.Hide();
     }
 }

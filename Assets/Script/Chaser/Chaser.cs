@@ -45,14 +45,14 @@ public class Chaser : MonoBehaviour, ILitable
     {
         isLit = false;
 
-        TextDisplayManager.New3D(Vector3.zero, 0.1f)
-            .WithParent(transform)
-            .WithTrackedProvider(() => $"{isLit}")
-            .Build();
-        TextDisplayManager.New3D(new Vector3(0,-0.2f,0), 0.1f)
-            .WithParent(transform)
-            .WithTrackedProvider(() => $"{currentState.ToString()}")
-            .Build();
+        // TextDisplayManager.New3D(Vector3.zero, 0.1f)
+        //     .WithParent(transform)
+        //     .WithTrackedProvider(() => $"{isLit}")
+        //     .Build();
+        // TextDisplayManager.New3D(new Vector3(0,-0.2f,0), 0.1f)
+        //     .WithParent(transform)
+        //     .WithTrackedProvider(() => $"{currentState.ToString()}")
+        //     .Build();
 
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
@@ -70,6 +70,7 @@ public class Chaser : MonoBehaviour, ILitable
     void Update()
     {
         UpdateState();
+        UpdateRotation();
         UpdateDistanceAudio();
     }
 
@@ -153,5 +154,18 @@ public class Chaser : MonoBehaviour, ILitable
         );
     }
 
+    private void UpdateRotation()
+    {
+        if (currentState != State.Moving)
+            return;
 
+        Vector3 velocity = agent.velocity;
+
+        if (velocity.sqrMagnitude < 0.001f)
+            return;
+
+        float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
+
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
+    }
 }

@@ -27,7 +27,7 @@ public class Door : MonoBehaviour, IInteractable
     void Awake()
     {
         SetState(DoorState.Closed);
-        TextDisplayManager.New3D(Vector3.zero, 0.1f).WithParent(transform).WithTrackedProvider(() => $"{isLit}").Build();
+        // TextDisplayManager.New3D(Vector3.zero, 0.1f).WithParent(transform).WithTrackedProvider(() => $"{isLit}").Build();
     }
 
     void Update()
