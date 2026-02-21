@@ -49,7 +49,13 @@ public class InventoryManager : GenericSingleton<InventoryManager>
             RemoveItem();
             SoundManager.Instance.PlaySFXAtPosition(SoundManager.PickUp, PlayerManager.Instance.PlayerPosition, pitchOverride:0.8f);
         }
-        
+    }
+
+    public void SpawnItem(ItemClass item, Transform transform)
+    {
+        GameObject g = GameObject.Instantiate(droppedItemPrefab, transform.position, Quaternion.identity);
+        g.GetComponent<CollectableItem>().SetItem(item);
+        SoundManager.Instance.PlaySFXAtPosition(SoundManager.PickUp, transform.position, pitchOverride:0.8f);
     }
 
     public ItemClass GetItem()

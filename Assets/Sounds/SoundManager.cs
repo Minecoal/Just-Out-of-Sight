@@ -11,7 +11,7 @@ public class SoundManager : GenericSingleton<SoundManager>
     public static readonly string CloseDoor = "closedoor";
     public static readonly string PickUp = "pickup";
     public static readonly string OpenLockDoor = "openlockdoor";
-    public static readonly string UnlockDoor = "unlockdoor";
+    public static readonly string UnlockDoor = "unlock";
     public static readonly string Teleport1 = "teleport1";
     public static readonly string Teleport2 = "teleport2";
     public static readonly string AmbientGlitch = "ambientglitch";

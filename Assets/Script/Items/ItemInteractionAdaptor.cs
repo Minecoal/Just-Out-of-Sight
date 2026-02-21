@@ -3,6 +3,7 @@ using UnityEngine;
 public class ItemInteractionAdaptor : MonoBehaviour, IInteractHandler
 {
     private IInteractable interactable;
+    [SerializeField] private string OnInteractUIText = "E";
 
     void Awake()
     {
@@ -12,5 +13,10 @@ public class ItemInteractionAdaptor : MonoBehaviour, IInteractHandler
     public void Interact()
     {
         interactable?.OnInteract();
+    }
+
+    public string GetUIText()
+    {
+        return OnInteractUIText;
     }
 }

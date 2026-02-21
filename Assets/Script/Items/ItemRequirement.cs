@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ItemRequirement : MonoBehaviour, IInteractHandler
@@ -6,6 +7,8 @@ public class ItemRequirement : MonoBehaviour, IInteractHandler
     [SerializeField] private ItemClass requiredItem;
     [SerializeField] private bool consumeItemOnSuccess = true;
     [SerializeField] private bool oneTimeConsumption = true;
+    [SerializeField] private bool oneTimeTrigger = false;
+    [SerializeField] private string OnInteractUIText = "E";
 
     private IInteractable interactable;
 
@@ -45,6 +48,15 @@ public class ItemRequirement : MonoBehaviour, IInteractHandler
         if (oneTimeConsumption){
             requiredItem = null;
         }
+        if (oneTimeTrigger) {
+            
+            Destroy(this);
+        }
         return;
+    }
+
+    public string GetUIText()
+    {
+        return OnInteractUIText;
     }
 }
