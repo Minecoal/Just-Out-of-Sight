@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Safe Key
   m_EditorClassIdentifier: Assembly-CSharp::ItemClass
   itemName: Safe Key
-  itemIcon: {fileID: 7888679645483428886, guid: 824e1dba9703d4f7185ed04768339320, type: 3}
+  itemIcon: {fileID: -3237682913377248358, guid: 824e1dba9703d4f7185ed04768339320, type: 3}

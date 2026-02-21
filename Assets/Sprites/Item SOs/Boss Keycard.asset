@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Boss Keycard
   m_EditorClassIdentifier: Assembly-CSharp::ItemClass
   itemName: Boss Keycard
-  itemIcon: {fileID: 6902296061403742629, guid: eef109c8c8b4a4778b37582dba89587e, type: 3}
+  itemIcon: {fileID: -320507528078312475, guid: eef109c8c8b4a4778b37582dba89587e, type: 3}

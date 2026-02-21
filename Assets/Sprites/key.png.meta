@@ -1,13 +1,16 @@
 fileFormatVersion: 2
-guid: a9cf9272bcc8a4a6b8d81c7ed91256a7
+guid: f03bcb259f107b844a9d7d906ecd5a31
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3955255558220673233
-    second: lightbulb_0
+      213: 1095141833252711340
+    second: key_0
   - first:
-      213: -1695490085700813883
-    second: lightbulb_1
+      213: 6614747575886032176
+    second: key_1
+  - first:
+      213: -7756627232784180200
+    second: key_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -116,7 +119,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lightbulb_0
+      name: key_0
       rect:
         serializedVersion: 2
         x: 0
@@ -131,14 +134,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1d0f1af69f3e3e630800000000000000
-      internalID: 3955255558220673233
+      spriteID: caba2bde1b9b23f00800000000000000
+      internalID: 1095141833252711340
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: lightbulb_1
+      name: key_1
       rect:
         serializedVersion: 2
         x: 32
@@ -153,8 +156,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5cb3b9900c86878e0800000000000000
-      internalID: -1695490085700813883
+      spriteID: 03d2093bfdd4ccb50800000000000000
+      internalID: 6614747575886032176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: key_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81c17cec0acea5490800000000000000
+      internalID: -7756627232784180200
       vertices: []
       indices: 
       edges: []
@@ -163,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 350d9cdba255b7449a659f9d08f1c6a0
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -175,8 +200,9 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      lightbulb_0: 3955255558220673233
-      lightbulb_1: -1695490085700813883
+      key_0: 1095141833252711340
+      key_1: 6614747575886032176
+      key_2: -7756627232784180200
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

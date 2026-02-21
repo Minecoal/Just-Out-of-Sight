@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Warehouse Key
   m_EditorClassIdentifier: Assembly-CSharp::ItemClass
   itemName: Warehouse Key
-  itemIcon: {fileID: 7615087737727940816, guid: c8aade62da2784a02a6de0cf1218940d, type: 3}
+  itemIcon: {fileID: 1095141833252711340, guid: f03bcb259f107b844a9d7d906ecd5a31, type: 3}
