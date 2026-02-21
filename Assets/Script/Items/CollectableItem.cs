@@ -12,6 +12,12 @@ public class CollectableItem : MonoBehaviour, IInteractHandler
             InventoryManager.Instance.AddItem(item);
             Destroy(this.gameObject);
         }
+        else
+        {
+            InventoryManager.Instance.DropItem();
+            InventoryManager.Instance.AddItem(item);
+            Destroy(this.gameObject);
+        }
     }
 
     public void SetItem(ItemClass itemToSet)
