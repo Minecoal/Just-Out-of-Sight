@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
     [SerializeField] private Light2D flashlight;
     [SerializeField] private PolygonCollider2D flashlightCollider;
     [SerializeField] private Light2D flashlightSelfLight;
-    [SerializeField] private int playerHealth = 3;
 
     private PlayerInputHandler input;
     private Rigidbody2D rb;
@@ -24,7 +23,6 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
-        playerHealth = 3;
         currentState = PlayerState.Idle;
     }
 
@@ -138,14 +136,7 @@ public class Player : MonoBehaviour
 
     public void PlayerHit()
     {
-        playerHealth--;
-
-        if (playerHealth <= 0)
-        {
-            GameManager.Instance.PlayerDeath();
-        } else {
-            StartCoroutine(GameManager.Instance.PlayerHit());
-        }
+        StartCoroutine(GameManager.Instance.PlayerHit());
     }
 
     public void ToggleInput(bool enable)

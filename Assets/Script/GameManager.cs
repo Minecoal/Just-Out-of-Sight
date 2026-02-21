@@ -26,12 +26,6 @@ public class GameManager : PersistentGenericSingleton<GameManager>
         isTransitioning = false;
     }
 
-    public void PlayerDeath()
-    {
-        Debug.Log("Player Ded");
-        // Reset Scene
-    }
-
     private Coroutine fadeVolumeRoutine;
     public void FadeMasterVolume(bool fadeIn, float duration)
     {
