@@ -1,7 +1,5 @@
 using UnityEngine;
 using UnityEngine.AI;
-using System;
-using UnityEngine.UIElements;
 
 public class Chaser : MonoBehaviour, ILitable
 {
@@ -21,12 +19,11 @@ public class Chaser : MonoBehaviour, ILitable
 
     [Header("Sound")]
     private AudioSource audioSource;
-    private AudioLowPassFilter lowPass;
 
-    [SerializeField] private float movingCutoff = 6000f; // normal
-    [SerializeField] private float idleCutoff = 1000f; //muffle
-    [SerializeField] private float farCutoff = 1f; //muffle
-    [SerializeField] private float maxHearingDistance = 4f;
+    [SerializeField] private float movingCutoff = 0.2f; // normal
+    [SerializeField] private float idleCutoff = 0.04f; //muffle
+    [SerializeField] private float farCutoff = 0f; //muffle
+    [SerializeField] private float maxHearingDistance = 6f;
 
     public void SetLit(bool lit)
     {
@@ -41,7 +38,7 @@ public class Chaser : MonoBehaviour, ILitable
         }
     }
 
-    void Start()
+    void Awake()
     {
         isLit = false;
 
@@ -60,11 +57,14 @@ public class Chaser : MonoBehaviour, ILitable
         agent.speed = chaseSpeed;
 
         audioSource = GetComponent<AudioSource>();
-        lowPass = GetComponent<AudioLowPassFilter>();
 
-        lowPass.cutoffFrequency = farCutoff;
-        SoundManager.Instance.PlaySFX(SoundManager.AmbientGlitch, audioSource, loop : true);
         previousState = currentState;
+    }
+
+    void Start()
+    {
+        SoundManager.Instance.PlaySFX(SoundManager.AmbientGlitch, audioSource, loop : true, volumeOverride: 0f);
+        audioSource.volume = 0f;
     }
 
     void Update()
@@ -141,15 +141,17 @@ public class Chaser : MonoBehaviour, ILitable
         // 1 = close, 0 = out of range
         float t = Mathf.Clamp01(1f - distance / maxHearingDistance);
 
-        float stateCutoff = currentState == State.Moving
+        t *= t;
+
+        float stateVolume = currentState == State.Moving
             ? movingCutoff
             : idleCutoff;
 
-        float targetCutoff = Mathf.Lerp(farCutoff, stateCutoff, t);
+        float targetVolume = Mathf.Lerp(farCutoff, stateVolume, t);
 
-        lowPass.cutoffFrequency = Mathf.Lerp(
-            lowPass.cutoffFrequency,
-            targetCutoff,
+        audioSource.volume = Mathf.Lerp(
+            audioSource.volume,
+            targetVolume,
             Time.deltaTime * 6f
         );
     }
